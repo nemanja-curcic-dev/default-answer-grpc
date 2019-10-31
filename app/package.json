@@ -1,0 +1,25 @@
+{
+  "name": "default-answer",
+  "version": "1.0.0",
+  "description": "Default answer grpc service.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nemanja-curcic-dev/default-answer-grpc.git"
+  },
+  "author": "Nemanja Curcic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nemanja-curcic-dev/default-answer-grpc/issues"
+  },
+  "homepage": "https://github.com/nemanja-curcic-dev/default-answer-grpc#readme",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "google-protobuf": "^3.10.0",
+    "grpc": "^1.24.1",
+    "mysql": "^2.17.1"
+  }
+}

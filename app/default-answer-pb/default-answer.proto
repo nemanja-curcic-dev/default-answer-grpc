@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package coozzy.message.default_answer;
+
+/* ------------------------------------
+ *  SERVICES
+ * ------------------------------------ */
+
+service DefaultAnswerService {
+    rpc Get(GetRequest) returns (GetResponse) {}
+    rpc Set(SetRequest) returns (SetResponse) {}
+}
+
+/* ------------------------------------
+ *  MESSAGES
+ * ------------------------------------ */
+
+message DefaultAnswer {
+    string id = 1;
+    int64 advertId = 2;
+    Type type = 3;
+    string message = 4;
+}
+
+enum Type {
+    NO_ANSWER = 0;
+    // Some random message that they will contact you
+    DEFAULT = 1;
+    // Message with fix date for viewing appointment
+    VIEWING_FIX = 2;
+    // Message that they will contact you for an individual viewing appointment
+    VIEWING_CONTACT = 3;
+}
+
+/* ------------------------------------
+ *  REQUESTS & RESPONSES
+ * ------------------------------------ */
+
+message GetRequest {
+    int64 advertId = 1;
+}
+
+message GetResponse {
+    DefaultAnswer answer = 1;
+}
+
+message SetRequest {
+    string advertId = 1;
+    Type type = 2;
+    string message = 3;
+}
+
+message SetResponse {
+    DefaultAnswer answer = 1;
+}
