@@ -4,17 +4,18 @@ services:
   default-answer:
       build:
         context: .
+        dockerfile: Dockerfile.app
       volumes:
         - ./app:/app
       depends_on:
         - db
       environment:
         - DEBUG=defaultanswer:info,defaultanswer:error
-        - TERM=xterm-256color
   db:
-      image: mysql:5
+      build:
+        context: .
+        dockerfile: Dockerfile.db
       environment:
         - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-        - MYSQL_DATABASE=defaultanswerdb
         - MYSQL_USER=nemanja
         - MYSQL_PASSWORD=${MYSQL_PASSWORD}
