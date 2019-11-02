@@ -1,12 +1,12 @@
 const grpc = require('grpc');
-const {connection} = require('../db/db');
-const {DefaultAnswerServiceService} = require('../default-answer-pb/default-answer_grpc_pb');
-const {getRequestSchema, setRequestSchema} = require('./validators');
-const logger = require('debug-logger')('default-answer-server');
 const {createGetResponse, createSetResponse} = require('./helpers');
+const logger = require('debug-logger')('default-answer-server');
 const squel = require('squel');
 const util = require('util');
 const uuid = require('uuid/v1');
+const {connection} = require('../db/db');
+const {DefaultAnswerServiceService} = require('../default-answer-pb/default-answer_grpc_pb');
+const {getRequestSchema, setRequestSchema} = require('./validators');
 
 // error messages
 const internalError = 'Internal server error.';

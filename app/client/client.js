@@ -42,6 +42,8 @@ function getClient() {
     let client = new DefaultAnswerServiceClient(`${serviceHost}:${servicePort}`, grpc.credentials.createInsecure());
     get(client);
     set(client);
+    get(client);
+    set(client);
 }
 
 getClient();

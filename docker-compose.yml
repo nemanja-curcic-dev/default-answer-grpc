@@ -10,7 +10,7 @@ services:
       depends_on:
         - db
       environment:
-        - DEBUG=defaultanswer:info,defaultanswer:error
+        - DEBUG=default-answer-server:info,default-answer-server:error
   db:
       build:
         context: .
