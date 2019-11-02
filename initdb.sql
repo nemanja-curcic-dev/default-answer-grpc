@@ -1,10 +1,11 @@
 /* Ensures creation of database 'defaultanswerdb' and table 'default_answer' */
-CREATE DATABASE defaultanswerdb;
+CREATE DATABASE IF NOT EXISTS defaultanswerdb;
 
 USE defaultanswerdb;
 
 CREATE TABLE IF NOT EXISTS default_answer(
-                     id VARCHAR(255) NOT NULL,
+                     id INT NOT NULL AUTO_INCREMENT,
                      advertid INT NOT NULL,
                      type TINYINT,
-                     message TEXT);
+                     message TEXT,
+                     PRIMARY KEY (id));

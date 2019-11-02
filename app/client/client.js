@@ -7,43 +7,43 @@ const serviceHost = process.env.DEFAULT_ANSWER_HOST || "localhost";
 const servicePort = process.env.DEFAULT_ANSWER_PORT || "50051";
 
 
-async function get(client) {
+async function get(data, client) {
     let request = new defaultAnswerpb.GetRequest();
-    request.setAdvertid(5);
+    request.setAdvertid(data);
 
     let getPromise = util.promisify(client.get);
 
     try {
         let response = await getPromise.call(client, request);
-        console.log('GET:', response.getAnswer().toObject())
+        return response.getAnswer().toObject();
     } catch (error) {
-        console.log('GET:', error.message, error.code);
+        return {err: error.message, code: error.code};
     }
 }
 
-async function set(client) {
+async function set(data, client) {
     let request = new defaultAnswerpb.SetRequest();
 
-    request.setAdvertid("5");
-    request.setType(defaultAnswerpb.Type.VIEWING_FIX);
-    request.setMessage("You will be contacted!.");
+    request.setAdvertid(data.advertid);
+    request.setType(defaultAnswerpb.Type[data.type]);
+    request.setMessage(data.message);
 
     let setPromise = util.promisify(client.set);
 
     try {
         let response = await setPromise.call(client, request);
-        console.log('SET:', response.getAnswer().toObject())
+        return response.getAnswer().toObject();
     } catch (error) {
-        console.log('SET:', error.message, error.code);
+        return {err: error.message, code: error.code};
     }
 }
+//
+// function getClient() {
+//     let client = new DefaultAnswerServiceClient(`${serviceHost}:${servicePort}`, grpc.credentials.createInsecure());
+// }
 
-function getClient() {
-    let client = new DefaultAnswerServiceClient(`${serviceHost}:${servicePort}`, grpc.credentials.createInsecure());
-    get(client);
-    set(client);
-    get(client);
-    set(client);
-}
-
-getClient();
+module.exports = {
+    client: new DefaultAnswerServiceClient(`${serviceHost}:${servicePort}`, grpc.credentials.createInsecure()),
+    setFunction: set,
+    getFunction: get
+};

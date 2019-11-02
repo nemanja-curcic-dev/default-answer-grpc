@@ -7,6 +7,9 @@ services:
         dockerfile: Dockerfile.app
       volumes:
         - ./app:/app
+        - /app/node_modules
+      links:
+        - db
       depends_on:
         - db
       environment:
@@ -15,7 +18,3 @@ services:
       build:
         context: .
         dockerfile: Dockerfile.db
-      environment:
-        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-        - MYSQL_USER=nemanja
-        - MYSQL_PASSWORD=${MYSQL_PASSWORD}

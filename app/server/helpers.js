@@ -3,7 +3,7 @@ const defaultAnswerpb = require('../default-answer-pb/default-answer_pb');
 function createDefaultAnswer(result) {
     let defaultAnswer = new defaultAnswerpb.DefaultAnswer();
 
-    defaultAnswer.setId(result.id);
+    defaultAnswer.setId(result.id.toString());
     defaultAnswer.setAdvertid(result.advertid);
     defaultAnswer.setType(result.type);
     defaultAnswer.setMessage(result.message);
