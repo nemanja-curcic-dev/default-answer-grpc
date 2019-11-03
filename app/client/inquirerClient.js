@@ -59,6 +59,7 @@ async function promptQuestions (get, set, client) {
         }
       ]
 
+      setQuestions.message = setQuestions.message === undefined ? '' : setQuestions.message
       const setAnswers = await inquirer.prompt(setQuestions)
       try {
         return await set(setAnswers, client)

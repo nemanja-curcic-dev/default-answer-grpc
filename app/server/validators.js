@@ -12,7 +12,8 @@ const setRequestSchema = Joi.object({
   )
     .required(),
   message: Joi.string()
-    .required()
+    .allow('')
+    .optional()
 })
 
 module.exports = {
