@@ -21,7 +21,7 @@ async function promptQuestions (get, set, client) {
         name: 'advertid',
         message: 'Enter id of the advert for which you want to retrieve default answer:',
         validate: (val) => {
-          const pass = val.match(/[0-9]+/)
+          const pass = val.match(/^\d+$/)
 
           return pass ? true : 'Please enter a valid id (number).'
         }
