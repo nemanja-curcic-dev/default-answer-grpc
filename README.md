@@ -4,7 +4,7 @@
 
 Clone repository
 
-**Build docker images with docker compose**
+**Build images with docker compose**
 
 `$ docker-compose build`
 
