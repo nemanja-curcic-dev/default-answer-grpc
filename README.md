@@ -1,5 +1,9 @@
 **DEFAULT-ANSWER GRPC SERVICE TEST CLI**
 
+**Description**
+
+CLI (command line interface) for testing _default-anwer_ grpc service
+
 **Instructions**
 
 Clone repository
