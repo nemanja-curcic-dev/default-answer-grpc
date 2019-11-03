@@ -20,6 +20,6 @@ services:
         dockerfile: Dockerfile.db
       environment:
         - MYSQL_USER=nemanja
-        - MYSQL_PASSWORD=password
         - MYSQL_DATABASE=defaultanswerdb
-        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+        - MYSQL_PASSWORD=password
+        - MYSQL_ROOT_PASSWORD=default_root_pass
