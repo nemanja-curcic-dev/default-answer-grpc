@@ -24,12 +24,14 @@ const defaultAnswerTable = 'default_answer';
 // service methods
 async function get(call, callback) {
     let advertid = call.request.getAdvertid();
-    logger.info('Called get');
+    logger.info(call.request);
 
     // validate input
     let validation = getRequestSchema.validate(advertid);
 
     if (validation.error) {
+        logger.error(validation.error);
+
         return callback({
             code: grpc.status.INVALID_ARGUMENT,
             message: validation.error.details[0].message
@@ -51,6 +53,7 @@ async function get(call, callback) {
         }
     } catch (error) {
         logger.error(error);
+
         return callback({
             code: grpc.status.INTERNAL,
             message: internalError
@@ -60,11 +63,14 @@ async function get(call, callback) {
 
 async function set(call, callback) {
     let setRequest = call.request.toObject();
+    logger.info(call.request);
 
     // validate input
     let validation = setRequestSchema.validate(setRequest);
 
     if (validation.error) {
+        logger.error(validation.error);
+
         return callback({
             code: grpc.status.INVALID_ARGUMENT,
             message: validation.error.details[0].message
@@ -77,6 +83,12 @@ async function set(call, callback) {
         let results = await queryPromise.call(connection, selectQuery);
 
         if (results.length !== 0) {
+            // return status code that entity already exists
+            // return callback({
+            //     code: grpc.status.ALREADY_EXISTS,
+            //     message: 'Entity already exists.'
+            // });
+
             // update default answer for advert that already exists
             let updateQuery = `UPDATE ${defaultAnswerTable} SET type = ${connection.escape(setRequest.type)}, message = ${connection.escape(setRequest.message)} WHERE ${advertidParam} = ${connection.escape(setRequest.advertid)}`;
 
@@ -106,7 +118,7 @@ async function set(call, callback) {
             // get the newly created object
             let select = await queryPromise.call(connection, selectQuery);
 
-            if(select.length === 0) {
+            if (select.length === 0) {
                 return callback({
                     code: grpc.status.NOT_FOUND,
                     message: noResults
@@ -118,6 +130,7 @@ async function set(call, callback) {
 
     } catch (error) {
         logger.error(error);
+
         return callback({
             code: grpc.status.INTERNAL,
             message: internalError
@@ -133,7 +146,10 @@ function getServer() {
         set: set,
     });
 
-    server.bind("0.0.0.0:50051", grpc.ServerCredentials.createInsecure());
+    const serviceHost = process.env.DEFAULT_ANSWER_HOST || "0.0.0.0";
+    const servicePort = process.env.DEFAULT_ANSWER_PORT || "50051";
+
+    server.bind(`${serviceHost}:${servicePort}`, grpc.ServerCredentials.createInsecure());
     server.start();
     logger.info('Server started...');
 

@@ -13,8 +13,13 @@ services:
       depends_on:
         - db
       environment:
-        - DEBUG=default-answer-server:info,default-answer-server:error
+        - DEBUG=default-answer-client:info,default-answer-server:error
   db:
       build:
         context: .
         dockerfile: Dockerfile.db
+      environment:
+        - MYSQL_USER=nemanja
+        - MYSQL_PASSWORD=password
+        - MYSQL_DATABASE=defaultanswerdb
+        - MYSQL_ALLOW_EMPTY_PASSWORD=yes

@@ -2,7 +2,7 @@ const {setFunction, getFunction, client} = require('./client/client');
 const promptQuestions = require('./client/inquirerClient');
 const getServer = require('./server/server');
 const {connection} = require('./db/db');
-const logger = require('debug-logger')('default-answer-server');
+const logger = require('debug-logger')('default-answer-client');
 
 let server = getServer();
 
@@ -18,7 +18,7 @@ let server = getServer();
 
 // close server and database connection after receiving SIGINT
 process.once('SIGINT', function () {
-    console.log('SIGINT received...');
+    logger.info('SIGINT received...');
 
     if(connection.state !== 'disconnected') {
         connection.end((err) => {

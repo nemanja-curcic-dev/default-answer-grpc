@@ -10,7 +10,7 @@ fi
 # Repeat command until port 3306 on address db is not ready.
 until nc -z -v -w30 db 3306
 do
-  echo "Waiting for database connection..."
+  echo "Waiting for database connection for ${SLEEP} seconds..."
   # Wait for 5 seconds before check again.
   sleep ${SLEEP}
 done

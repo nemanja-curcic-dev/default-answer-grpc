@@ -6,6 +6,9 @@ const util = require('util');
 const serviceHost = process.env.DEFAULT_ANSWER_HOST || "localhost";
 const servicePort = process.env.DEFAULT_ANSWER_PORT || "50051";
 
+const getDeadline = process.env.GET_TIMEOUT || 300;
+const setDeadline = process.env.SET_TIMEOUT || 400;
+
 
 async function get(data, client) {
     let request = new defaultAnswerpb.GetRequest();
@@ -14,7 +17,7 @@ async function get(data, client) {
     let getPromise = util.promisify(client.get);
 
     try {
-        let response = await getPromise.call(client, request);
+        let response = await getPromise.call(client, request, {deadline: new Date(Date.now() + getDeadline)});
         return response.getAnswer().toObject();
     } catch (error) {
         return {err: error.message, code: error.code};
@@ -31,16 +34,12 @@ async function set(data, client) {
     let setPromise = util.promisify(client.set);
 
     try {
-        let response = await setPromise.call(client, request);
+        let response = await setPromise.call(client, request,  {deadline: new Date(Date.now() + setDeadline)});
         return response.getAnswer().toObject();
     } catch (error) {
         return {err: error.message, code: error.code};
     }
 }
-//
-// function getClient() {
-//     let client = new DefaultAnswerServiceClient(`${serviceHost}:${servicePort}`, grpc.credentials.createInsecure());
-// }
 
 module.exports = {
     client: new DefaultAnswerServiceClient(`${serviceHost}:${servicePort}`, grpc.credentials.createInsecure()),
